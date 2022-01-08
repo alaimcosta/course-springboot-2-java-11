@@ -1,4 +1,4 @@
-package br.com.altec.workshop;
+package br.com.altec.course;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
