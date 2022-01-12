@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="tb_user")
 public class User implements Serializable {
@@ -26,6 +28,7 @@ public class User implements Serializable {
 	
 	
 	//Associação, um usuario pode ter varios pedidos, um para muitos
+	@JsonIgnore
 	@OneToMany(mappedBy = "client") //colocar o nome da classe que esta do outro lado
 	private List<Order> orders = new ArrayList<>();
 	
