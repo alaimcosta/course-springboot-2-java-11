@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import br.com.altec.course.entities.Category;
 import br.com.altec.course.entities.Order;
+import br.com.altec.course.entities.OrderItem;
 import br.com.altec.course.entities.Product;
 import br.com.altec.course.entities.User;
 import br.com.altec.course.entities.enums.OrderStatus;
 import br.com.altec.course.repositories.CategoryRepository;
+import br.com.altec.course.repositories.OrderItemRepository;
 import br.com.altec.course.repositories.OrderRepository;
 import br.com.altec.course.repositories.ProductRepository;
 import br.com.altec.course.repositories.UserRepository;
@@ -22,7 +24,7 @@ import br.com.altec.course.repositories.UserRepository;
 @Profile("test")//deve ser igual que ta configurado no properties
 public class TestConfig implements CommandLineRunner{
 
-	//AQUI FAÇO A INJEÇÃO DE DEPENDECIAS NO BD
+	//AQUI FAÇO A INJEÇÃO DE DEPENDECIAS NO BANCO DE DADOS
 	@Autowired 
 	private UserRepository userRepository; //declaro um atributo do tipo Repository
 	
@@ -34,6 +36,9 @@ public class TestConfig implements CommandLineRunner{
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -77,8 +82,15 @@ public class TestConfig implements CommandLineRunner{
 		userRepository.saveAll(Arrays.asList(pes1, pes2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3)); 	// Aqui passo a lista de pedidos 
 	
+		//AQUI TO INSTANCIANDO OS OBJETOS EM MEMÓRIA
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
 		//salvando no BD
-		//userRepository.saveAll(Arrays.asList(p1, p2));
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 	
 	
