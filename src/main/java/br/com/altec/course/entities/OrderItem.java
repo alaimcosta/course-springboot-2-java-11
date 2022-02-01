@@ -41,6 +41,7 @@ public class OrderItem implements Serializable {
 		id.setOrder(order);//chama id order
 	}
 	
+	@JsonIgnore
 	public Product getProduct() {
 		return id.getProduct();
 	}

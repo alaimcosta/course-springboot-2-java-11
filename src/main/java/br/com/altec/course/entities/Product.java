@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_product")
@@ -32,6 +35,9 @@ public class Product implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "category_id")) //product_id chave estrangeira do Product	
 							//inverseJoinColumns define a chave estrangeira da outra classe	
 	private Set<Category> categories = new HashSet<>(); //Aqui tenho um conjunto de categorias 
+	
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Product () {
 	}
@@ -89,6 +95,16 @@ public class Product implements Serializable {
 
 	public Set<Category> getCategories(){
 		return categories;
+	}
+	
+	//Percorrer a lista de Order
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		for(OrderItem x : items) {	//PERCORRER CADA OBJ DO TIPO orderItem, contido na list items
+			set.add(x.getOrder());
+		}
+		return set;
 	}
 	
 	@Override
