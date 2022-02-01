@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import br.com.altec.course.entities.Category;
 import br.com.altec.course.entities.Order;
 import br.com.altec.course.entities.OrderItem;
+import br.com.altec.course.entities.Payment;
 import br.com.altec.course.entities.Product;
 import br.com.altec.course.entities.User;
 import br.com.altec.course.entities.enums.OrderStatus;
@@ -82,15 +83,36 @@ public class TestConfig implements CommandLineRunner{
 		userRepository.saveAll(Arrays.asList(pes1, pes2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3)); 	// Aqui passo a lista de pedidos 
 	
-		//AQUI TO INSTANCIANDO OS OBJETOS EM MEMÓRIA
+//AQUI TO INSTANCIANDO OS OBJETOS EM MEMÓRIA
 		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
 		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
 		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
-		//salvando no BD
+//salvando no BD
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		//Associar um pagamento a um pedido
+		Payment pay1 = new Payment(null, Instant.parse("2022-01-09T22:56:10Z"), o1);
+//Salvar objeto dependente
+		o1.setPayment(pay1);
+//Salvar no banco de dados
+		orderRepository.save(o1);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	
