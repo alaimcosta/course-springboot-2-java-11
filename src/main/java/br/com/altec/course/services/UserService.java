@@ -24,5 +24,43 @@ public class UserService {
 		Optional<User> obj = repository.findById(id);
 		return obj.get();
 	}
+	
+	//Inserindo usuarios no BD
+	public User insert(User obj) {
+		return repository.save(obj);
+	}
+	
+	//Deletando
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+	
+	//Atualizar 
+	//Recebo um usuário
+	public User update(Long id, User obj) {
+		User entity = repository.getOne(id);//não vai no BD, só para ponitorar o objeto
+		updateData(entity, obj);
+		return repository.save(entity);
+	}
 
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName()); //atualizar o nome
+		entity.setEmail(obj.getEmail()); //email
+		entity.setPhone(obj.getPhone()); //número de telefone
+		
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
