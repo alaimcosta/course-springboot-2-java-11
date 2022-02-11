@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.altec.course.entities.User;
 import br.com.altec.course.repositories.UserRepository;
+import br.com.altec.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -22,7 +23,7 @@ public class UserService {
 	// chamar pelo ID
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	//Inserindo usuarios no BD
