@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.altec.course.entities.User;
 import br.com.altec.course.repositories.UserRepository;
+import br.com.altec.course.services.exceptions.DatabaseException;
 import br.com.altec.course.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -33,7 +36,15 @@ public class UserService {
 	
 	//Deletando
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}catch (DataIntegrityViolationException e) { //excessão de serviço
+			throw new DatabaseException(e.getMessage()); //excessão de BD
+		
+		}
+		
 	}
 	
 	//Atualizar 
